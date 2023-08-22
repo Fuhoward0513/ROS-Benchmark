@@ -1,0 +1,10 @@
+<launch>
+    <arg name="pub_id" default="0"/>
+    <arg name="sub_id" default="0"/>
+    <node pkg="benchmark" name="listener_sub$(arg sub_id)_pub$(arg pub_id)" type="listener" output="screen">
+        <!-- Set any arguments or parameters for the node here -->
+        <param name="pub_id" value="$(arg pub_id)" type="string"/>
+        <param name="sub_id" value="$(arg sub_id)" type="string"/>
+    </node>
+
+</launch>
