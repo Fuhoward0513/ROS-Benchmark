@@ -17,20 +17,23 @@ int main(int argc, char **argv)
     std::string pub_id;
     std::string fre_str;
     std::string payloadSize;
+    std::string sub_num;
     n.param("pub_id", pub_id, std::string("53"));
     n.param("fre_str", fre_str, std::string("53"));
     n.param("payload", payloadSize, std::string("53"));
+    n.param("sub_num", sub_num, std::string("53"));
 
     std::string topic_base = "/topic";
     std::string topic = topic_base + pub_id;
     ROS_INFO("topic: %s", topic.c_str());
 
-    int buffer_size = 1000;
+    int buffer_size = 10000000;
     bool latch = true;
-    // int fre = std::stoi(fre_str);
+    
     ROS_INFO("pub_id: %s", pub_id.c_str());
     ROS_INFO("fre_str: %s", fre_str.c_str());
     ROS_INFO("payload size: %s", payloadSize.c_str());
+    ROS_INFO("sub_num: %s", sub_num.c_str());
 
     
     ros::Publisher chatter_pub = n.advertise<benchmark::payload>(topic, buffer_size);    // (topic, buffer_size, latch)
@@ -41,7 +44,8 @@ int main(int argc, char **argv)
         payload[i] = 1;
     }
 
-    int dataNum = 10;
+    ros::Duration(5).sleep();
+    int dataNum = 505;
     for(int i=0; i<dataNum; i++)
     {
         /**

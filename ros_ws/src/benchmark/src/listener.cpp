@@ -8,7 +8,7 @@
 #include <string>
 
 // global 2d array to record latency
-int dataNum = 10;
+int dataNum = 505;
 int cnt = 0;
 std::string filename;
 int32_t* DATA;
@@ -31,7 +31,7 @@ void chatterCallback(const benchmark::payload::ConstPtr& msg)
     std::cout << filename << "\n";
     std::ofstream csvFile;
     csvFile.open(filename);
-    for (int i = 0; i < dataNum; ++i) {
+    for (int i = 5; i < dataNum; ++i) {
       csvFile << std::to_string(DATA[i]);
       
       if (i < dataNum - 1) {
@@ -52,13 +52,15 @@ int main(int argc, char **argv)
 
     std::string pub_id; // message publish from which publisher
     std::string sub_id; // subscriber id
+    std::string fre_str;
 
     n.param("pub_id", pub_id, std::string("53"));
     n.param("sub_id", sub_id, std::string("53"));
+    n.param("fre_str", fre_str, std::string("53"));
     ROS_INFO("pub_id: %s", pub_id.c_str());
     ROS_INFO("sub_id: %s", sub_id.c_str());
+    ROS_INFO("fre_str: %s", fre_str.c_str());
 
-    // filename = "sub" + sub_id + "_pub" + pub_id + ".csv";
     filename = "/root/ros_ws/src/benchmark/tmp/sub=" + sub_id + "_pub=" + pub_id + ".csv";
     DATA = new int32_t[dataNum]; // array to recording latency
     for(int i=0; i<dataNum; i++){
@@ -69,7 +71,7 @@ int main(int argc, char **argv)
     std::string topic = topic_base + pub_id;
     ROS_INFO("topic: %s", topic.c_str());
 
-    int buffer_size = 1000; // define buffer size
+    int buffer_size = 10000000; // define buffer size
     
     ros::Subscriber sub = n.subscribe(topic, buffer_size, chatterCallback); // start subsrcibe
 
@@ -78,8 +80,31 @@ int main(int argc, char **argv)
      * callbacks will be called from within this thread (the main one).  ros::spin()
      * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
      */
-    ros::spin();
+    // ros::spin();
 
+    ros::Rate loop_rate(stoi(fre_str)*2);  // frequency Hz
+    while (ros::ok())
+    {
+        /*...TODO...*/  
+
+        ros::spinOnce();
+        loop_rate.sleep();
+    }
+
+    // std::cout << "------write file--------\n";
+    // std::cout << filename << "\n";
+    // std::ofstream csvFile;
+    // csvFile.open(filename);
+    // for (int i = 0; i < dataNum; ++i) {
+    //   csvFile << std::to_string(DATA[i]);
+      
+    //   if (i < dataNum - 1) {
+    //     csvFile << ",";
+    //   }
+    // }
+    // csvFile << "\n";
+
+    // csvFile.close();
     delete[] DATA;
 
     return 0;

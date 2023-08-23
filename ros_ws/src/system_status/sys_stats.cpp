@@ -9,7 +9,8 @@ int main(int argc, char * argv[]){
     // argv[1] payload, argv[2] frequency
     // argv[3] n_sub, argv[4] m_pub
     // myfile.open(std::string("1v") + std::string(argv[3]) + "_" + std::string(argv[1]) + "_" + std::string(argv[2]) + "hz.csv");
-    int time = 2*505/std::stoi(argv[2])+1;
+    // argv[5]: lag time
+    int time = 2*505/std::stoi(argv[2])+2*(std::stoi(argv[5]));
     float usage[2][time];
     CPU_stats t1 = read_cpu_data();
     for(int i=0; i<time; i++){
@@ -28,7 +29,8 @@ int main(int argc, char * argv[]){
 
     std::cout << "stats complete" << std::endl;
     // Write to file
-    myfile.open("result/cpu_mem/tmp/" + std::string("1v") + std::string(argv[3]) + "_" + std::string(argv[1]) + "_" + std::string(argv[2]) + "hz.csv");
+    myfile.open("/root/ros_ws/src/system_status/cpu_mem/N=" + std::string(argv[3]) + "_M=" + std::string(argv[4]) 
+                + "_fre=" + std::string(argv[2]) + "_payload=" + std::string(argv[1]) + ".csv");
     for(int i=0; i<time; i++){
         myfile << usage[0][i] << ',' << usage[1][i]-0.327913 << '\n';
     }

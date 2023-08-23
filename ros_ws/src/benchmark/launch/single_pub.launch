@@ -3,11 +3,13 @@
     <arg name="pub_id" default="0"/>
     <arg name="fre" default="10"/>
     <arg name="payload" default="8"/>
+    <arg name="sub_num" default="0"/>
     <node pkg="benchmark" name="talker_$(arg pub_id)" type="talker" output="screen">
         <!-- Set any arguments or parameters for the node here -->
         <param name="pub_id" value="$(arg pub_id)" type="string"/>
         <param name="fre_str" value="$(arg fre)" type="string" />
         <param name="payload" value="$(arg payload)" type="string" />
+        <param name="sub_num" value="$(arg sub_num)" type="string" />
     </node>
 
 </launch>
