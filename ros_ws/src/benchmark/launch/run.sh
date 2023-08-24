@@ -3,7 +3,8 @@
 pub_num=1
 sub_num=1
 fre_lst=(100)
-payload_lst=(8 80 200 500 1000 2000)
+# payload_lst=(8 80 200 500 1000 2000)
+payload_lst=(2000)
 # payload_lst=(1000000 2000000 10000000 20000000 30000000 50000000)
 lag=$((5+20))
 
