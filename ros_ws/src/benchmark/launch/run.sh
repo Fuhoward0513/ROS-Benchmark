@@ -1,7 +1,7 @@
 #!/bin/bash
 
-pub_num=10
-sub_num=5
+pub_num=1
+sub_num=1
 fre_lst=(100)
 payload_lst=(8 80 200 500 1000 2000)
 # payload_lst=(1000000 2000000 10000000 20000000 30000000 50000000)
@@ -19,7 +19,7 @@ do
                 # roslaunch benchmark single_sub.launch pub_id:=$i sub_id:=$j fre:=$fre&
             done
         done
-        ../../system_status/sys_status "$payload" "$fre" "$sub_num" "$pub_num" "$lag"&
+        # ../../system_status/sys_status "$payload" "$fre" "$sub_num" "$pub_num" "$lag"&
         wait
         rosrun benchmark file.py $sub_num $pub_num $fre $payload
     done
