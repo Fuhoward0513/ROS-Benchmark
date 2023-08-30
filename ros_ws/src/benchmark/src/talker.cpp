@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     std::string topic = topic_base + pub_id;
     ROS_INFO("topic: %s", topic.c_str());
 
-    int buffer_size = 10000000;
+    int buffer_size = 10;
     bool latch = true;
     
     ROS_INFO("pub_id: %s", pub_id.c_str());
@@ -39,10 +39,10 @@ int main(int argc, char **argv)
     ros::Publisher chatter_pub = n.advertise<benchmark::payload>(topic, buffer_size);    // (topic, buffer_size, latch)
     ros::Rate loop_rate(stoi(fre_str));  // frequency Hz
 
-    uint8_t *payload = new uint8_t[stoi(payloadSize)];
-    for(int i=0; i<stoi(payloadSize); i++){
-        payload[i] = 1;
-    }
+    // uint8_t *payload = new uint8_t[stoi(payloadSize)];
+    // for(int i=0; i<stoi(payloadSize); i++){
+    //     payload[i] = 1;
+    // }
 
     ros::Duration(5).sleep();
     int dataNum = 505;
@@ -55,7 +55,8 @@ int main(int argc, char **argv)
         msg.header.seq = i;
         msg.header.stamp = ros::Time::now();
         msg.header.frame_id = payloadSize;
-        msg.data.assign(payload, payload + stoi(payloadSize));
+        // msg.data.assign(payload, payload + stoi(payloadSize));
+        msg.data.resize(stoi(payloadSize));
         ROS_INFO("publish data: [%d], payloadsize: [%ld]", i, msg.data.size());
 
         /**
@@ -74,7 +75,7 @@ int main(int argc, char **argv)
 
         loop_rate.sleep();
     }
-    delete[] payload;
+    // delete[] payload;
 
     return 0;
 }

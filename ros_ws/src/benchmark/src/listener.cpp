@@ -11,7 +11,7 @@
 int dataNum = 505;
 int cnt = 0;
 std::string filename;
-int32_t* DATA;
+int32_t DATA[505];
 
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     ROS_INFO("fre_str: %s", fre_str.c_str());
 
     filename = "/root/ros_ws/src/benchmark/tmp/sub=" + sub_id + "_pub=" + pub_id + ".csv";
-    DATA = new int32_t[dataNum]; // array to recording latency
+    // DATA = new int32_t[dataNum]; // array to recording latency
     for(int i=0; i<dataNum; i++){
       DATA[i] = -1;
     }
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     std::string topic = topic_base + pub_id;
     ROS_INFO("topic: %s", topic.c_str());
 
-    int buffer_size = 10000000; // define buffer size
+    int buffer_size = 10; // define buffer size
     
     ros::Subscriber sub = n.subscribe(topic, buffer_size, chatterCallback); // start subsrcibe
 
@@ -80,16 +80,16 @@ int main(int argc, char **argv)
      * callbacks will be called from within this thread (the main one).  ros::spin()
      * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
      */
-    // ros::spin();
+    ros::spin();
 
-    ros::Rate loop_rate(stoi(fre_str)*2);  // frequency Hz
-    while (ros::ok())
-    {
-        /*...TODO...*/  
+    // ros::Rate loop_rate(stoi(fre_str)*2);  // frequency Hz
+    // while (ros::ok())
+    // {
+    //     /*...TODO...*/  
 
-        ros::spinOnce();
-        loop_rate.sleep();
-    }
+    //     ros::spinOnce();
+    //     loop_rate.sleep();
+    // }
 
     // std::cout << "------write file--------\n";
     // std::cout << filename << "\n";
@@ -105,7 +105,6 @@ int main(int argc, char **argv)
     // csvFile << "\n";
 
     // csvFile.close();
-    delete[] DATA;
 
     return 0;
 }
